@@ -8,13 +8,20 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('user_groups', function (Blueprint $table) {
+        Schema::create('activity_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
+            $table->integer('user_id');
+            $table->string('activity', 200);
+            $table->string('page_url', 255);
+            $table->string('ip_address', 100);
+            $table->string('user_agent')->nullable();
+            $table->timestamp('activity_time')->useCurrent();
+            $table->text('data')->nullable()->comment('Payload data');
             $table->timestamp('created_at')->useCurrent();
             $table->integer('created_by')->nullable();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
@@ -30,9 +37,11 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('user_groups');
+        Schema::dropIfExists('activity_logs');
     }
 };
