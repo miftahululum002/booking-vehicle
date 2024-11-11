@@ -11,6 +11,9 @@ class AuthController extends Controller
 
     public function index()
     {
+        if (getUserLogin()) {
+            return redirect(route('dashboard.index'));
+        }
         $this->data['title'] = 'Login';
         return $this->render('index');
     }
