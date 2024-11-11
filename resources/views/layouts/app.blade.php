@@ -5,10 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Sistem Pemesanan Kendaraan">
-    <meta name="author" content="Miftahul Ulum" />
-    <!-- <meta name="generator" content="Hugo 0.122.0"> -->
+    <meta name="author" content="{{$author->name}}" />
     <title>{{$app_name}} &mdash; {{$title}}</title>
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"> -->
     <link href="{{asset('static')}}/libraries/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <style>
         .bd-placeholder-img {
@@ -195,7 +193,7 @@
                     <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#">
+                                <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{{route('dashboard.index')}}">
                                     <svg class="bi">
                                         <use xlink:href="#house-fill" />
                                     </svg>
