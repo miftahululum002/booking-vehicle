@@ -36,6 +36,11 @@ function getUserLogin()
     return auth()->user();
 }
 
+function setActivityLog($activity, $data = null)
+{
+    return createActivityLog($activity, $data);
+}
+
 function createActivityLog($activity, $data = null, $userId = null)
 {
     if (empty($userId)) {
