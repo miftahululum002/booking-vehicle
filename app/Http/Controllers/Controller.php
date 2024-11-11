@@ -17,6 +17,8 @@ abstract class Controller
     {
         $app = getApp();
         $this->data['app_name'] = $app->name;
+        $author = getAuthor();
+        $this->data['author'] = $author;
     }
 
     private function getView($filename)
