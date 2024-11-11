@@ -4,14 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserGroup extends Model
+class ActivityLog extends Model
 {
-    protected $table = 'user_groups';
+    protected $table = 'activity_logs';
     protected $guarded = ['id'];
     protected $primaryKey = 'id';
     protected $fillable = [
-        'name',
-        'description',
+        'user_id',
+        'activity',
+        'page_url',
+        'ip_address',
+        'user_agent',
+        'activity_time',
+        'data',
         'created_at',
         'created_by',
         'updated_at',
