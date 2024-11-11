@@ -23,6 +23,7 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
+            createActivityLog('Login', ['email' => $credentials['email']]);
             $request->session()->regenerate();
             return redirect()->intended('dashboard');
         }
