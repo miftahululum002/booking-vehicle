@@ -317,6 +317,21 @@ function getCountBookingApprovalApprove($bookingId)
     return getCountBookingApproval($bookingId, '1');
 }
 
+function getBookingIdByApprovalUserId($userId)
+{
+    $bookings = DB::table('bookings as b')->select(['b.id'])->distinct()
+        ->join('booking_approvals as a', 'b.id', '=', 'a.booking_id', 'inner')
+        ->where('a.user_id', $userId)
+        ->where('a.status', '0')->get();
+    $bookingId = null;
+    if ($bookings) {
+        foreach ($bookings as $key => $value) {
+            $bookingId[] = $value->id;
+        }
+    }
+    return $bookingId;
+}
+
 function getCountBookingApproval($bookingId, $status = null)
 {
     return BookingApproval::where('booking_id', $bookingId)
