@@ -19,8 +19,8 @@ class UserGroupSeeder extends Seeder
                 'description' => 'Group user admin'
             ],
             [
-                'name' => 'Other',
-                'description' => 'Group user other'
+                'name' => 'Manajer',
+                'description' => 'Group user manajer'
             ],
         ];
 
