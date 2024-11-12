@@ -2,7 +2,7 @@
 @push('styles')
 @endpush
 @section('content')
-<h3>Pemesanan Kendaraan</h3>
+<h3>Penggunaan Kendaraan</h3>
 <div class="mb-3">
     <div class="input-group rounded-0">
         <input type="date" id="start_date" name="start_date" value="{{date('Y-m-d')}}" class="form-control rounded-0" placeholder="Tanggal awal" required>
@@ -10,7 +10,7 @@
         <button type="button" class="btn btn-primary btn-sm rounded-0" id="btn-filter">Filter</button>
     </div>
 </div>
-<canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+<canvas class="my-4 w-100" id="myChart" width="900" height="200"></canvas>
 @endsection
 @push('scripts')
 <script>
