@@ -6,6 +6,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
 
@@ -64,7 +65,7 @@ Route::middleware(['auth'])->group(function () {
                     });
                     Route::name('reports.')->group(function () {
                         Route::prefix('reports')->group(function () {
-                            Route::controller(DriverController::class)->group(function () {
+                            Route::controller(ReportController::class)->group(function () {
                                 Route::get('/', 'index')->name('index');
                             });
                         });

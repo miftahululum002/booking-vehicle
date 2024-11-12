@@ -128,6 +128,9 @@
                                     Dashboard
                                 </a>
                             </li>
+                            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
+                                <span>Data Transaksi</span>
+                            </h6>
                             @if($user_login->group_id ==1)
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center gap-2" href="{{route('dashboard.bookings.index')}}">
@@ -180,6 +183,7 @@
                             </li>
                         </ul>
                         @endif
+                        @if($user_login->group_id ==1)
                         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
                             <span>Laporan</span>
                         </h6>
@@ -193,6 +197,7 @@
                                 </a>
                             </li>
                         </ul>
+                        @endif
                         <hr class="my-3">
                         <ul class="nav flex-column mb-auto">
                             <li class="nav-item">
