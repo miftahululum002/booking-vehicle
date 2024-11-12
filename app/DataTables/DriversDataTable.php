@@ -80,6 +80,7 @@ class DriversDataTable extends DataTable
             Column::make('code')->title('Kode'),
             Column::make('description')->title('Deskripsi'),
             Column::computed('action')
+                ->title('Opsi')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

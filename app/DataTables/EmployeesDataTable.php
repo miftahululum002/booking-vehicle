@@ -84,6 +84,7 @@ class EmployeesDataTable extends DataTable
             Column::make('phone_number')->title('No HP'),
             Column::make('address')->title('Alamat'),
             Column::computed('action')
+                ->title('Opsi')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

@@ -81,6 +81,7 @@ class VehiclesDataTable extends DataTable
             Column::make('merk')->title('Merek'),
             Column::make('category')->title('Kategori'),
             Column::computed('action')
+                ->title('Opsi')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
