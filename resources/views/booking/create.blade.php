@@ -44,8 +44,8 @@
                 </select>
             </div>
             <div class="col-md-12 mb-3">
-                <label for="necessary">Tujuan</label>
-                <input class="form-control rounded-0" type="text" name="necessary" id="necessary" placeholder="Tujuan" required />
+                <label for="necessary">Keperluan</label>
+                <input class="form-control rounded-0" type="text" name="necessary" id="necessary" placeholder="Keperluan" required />
             </div>
             <div class="col-md-6 mb-3">
                 <label for="user_id_1">Approver 1</label>
@@ -118,7 +118,7 @@
             beforeSend: () => {},
             success: (response) => {
                 alert(response.message);
-                location.reload();
+                location.href = `{{route('dashboard.bookings.index')}}`;
             },
             error: (xhr) => {
                 let response = xhr.responseJSON;
