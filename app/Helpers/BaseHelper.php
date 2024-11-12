@@ -359,3 +359,14 @@ function scriptMinifields($selector)
     });
 CDATA;
 }
+
+function getOptionData($isView = false, $isEdit = false, $isDelete = false)
+{
+    $return = '-';
+    if ($isView) {
+    }
+    if ($isEdit) {
+        $return .= '<button type="button" class="btn btn-warning btn-sm rounded-0">Edit</button>';
+    }
+    return $return;
+}
