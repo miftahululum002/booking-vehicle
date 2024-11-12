@@ -11,8 +11,10 @@
     <!-- Custom styles for this template -->
     <link href="{{asset('static')}}/libraries/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
     <!-- Custom styles for this template -->
+    <link href="{{asset('static')}}/libraries/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="{{asset('static')}}/css/dashboard.css" rel="stylesheet" />
     <link href="{{asset('static')}}/css/style.css" rel="stylesheet" />
+    @stack('styles')
 </head>
 
 <body>
@@ -128,43 +130,53 @@
                                     <svg class="bi">
                                         <use xlink:href="#file-earmark" />
                                     </svg>
-                                    Orders
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                                    <svg class="bi">
-                                        <use xlink:href="#cart" />
-                                    </svg>
-                                    Products
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                                    <svg class="bi">
-                                        <use xlink:href="#people" />
-                                    </svg>
-                                    Customers
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                                    <svg class="bi">
-                                        <use xlink:href="#graph-up" />
-                                    </svg>
-                                    Reports
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                                    <svg class="bi">
-                                        <use xlink:href="#puzzle" />
-                                    </svg>
-                                    Integrations
+                                    Booking
                                 </a>
                             </li>
                         </ul>
 
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
+                            <span>Data Master</span>
+                            <a class="link-secondary" href="#" aria-label="Add a new report">
+                                <svg class="bi">
+                                    <use xlink:href="#plus-circle" />
+                                </svg>
+                            </a>
+                        </h6>
+                        <ul class="nav flex-column mb-auto">
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center gap-2" href="{{route('dashboard.vehicles.index')}}">
+                                    <svg class="bi">
+                                        <use xlink:href="#file-earmark-text" />
+                                    </svg>
+                                    Kendaraan
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center gap-2" href="#">
+                                    <svg class="bi">
+                                        <use xlink:href="#file-earmark-text" />
+                                    </svg>
+                                    Last quarter
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center gap-2" href="#">
+                                    <svg class="bi">
+                                        <use xlink:href="#file-earmark-text" />
+                                    </svg>
+                                    Social engagement
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center gap-2" href="#">
+                                    <svg class="bi">
+                                        <use xlink:href="#file-earmark-text" />
+                                    </svg>
+                                    Year-end sale
+                                </a>
+                            </li>
+                        </ul>
                         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
                             <span>Saved reports</span>
                             <a class="link-secondary" href="#" aria-label="Add a new report">
@@ -252,9 +264,13 @@
             </main>
         </div>
     </div>
+    <script src="{{asset('static')}}/libraries/jquery/jquery.min.js"></script>
+    <script src="{{asset('static')}}/libraries/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="{{asset('static')}}/libraries/datatables/js/dataTables.bootstrap4.min.js"></script>
     <script src="{{asset('static')}}/libraries/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="{{asset('static')}}/libraries/chart.js/chart.umd.js"></script>
     <script src="{{asset('static')}}/js/dashboard.js"></script>
+    @stack('scripts')
 </body>
 
 </html>
