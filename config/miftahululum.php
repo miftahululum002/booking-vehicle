@@ -16,5 +16,7 @@ return [
         'pad' => 4,
         'vehicle' => 'V',
         'employee' => 'E',
+        'driver' => 'D',
+        'booking' => 'BOOK',
     ],
 ];
