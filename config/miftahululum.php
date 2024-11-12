@@ -15,5 +15,6 @@ return [
     'code' => [
         'pad' => 4,
         'vehicle' => 'V',
+        'employee' => 'E',
     ],
 ];
