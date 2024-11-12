@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
                                 Route::get('/create', 'create')->name('create');
                                 Route::get('/get-approver', 'getApprover')->name('approver');
                                 Route::post('/store', 'store')->name('store');
+                                Route::post('/set-done', 'setDone')->name('set-done');
                             });
                         });
                     });
@@ -67,9 +68,7 @@ Route::middleware(['auth'])->group(function () {
                         Route::prefix('approvals')->group(function () {
                             Route::controller(BookingApprovalController::class)->group(function () {
                                 Route::get('/', 'index')->name('index');
-                                Route::get('/create', 'create')->name('create');
-                                Route::get('/get-approver', 'getApprover')->name('approver');
-                                Route::post('/store', 'store')->name('store');
+                                Route::post('/approve', 'approve')->name('approve');
                             });
                         });
                     });
