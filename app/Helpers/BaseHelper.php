@@ -344,7 +344,7 @@ function getDataChart($startDate = null, $endDate = null)
     $startDate = !empty($startDate) ? $startDate : date('Y-m-d');
     $endDate = !empty($endDate) ? $endDate : date('Y-m-d');
     $result  = DB::table('vehicles as v')
-        ->selectRaw("v.name, v.code, (select count(id) from bookings b where b.vehicle_id = v.id and b.date between '$startDate' and '$endDate') as jumlah")
+        ->selectRaw("v.name, v.code, (select count(id) from bookings b where b.vehicle_id = v.id and b.is_done ='1' and b.date between '$startDate' and '$endDate') as jumlah")
         ->get();
     return $result;
 }
