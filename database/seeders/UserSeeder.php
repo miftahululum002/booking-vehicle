@@ -22,14 +22,14 @@ class UserSeeder extends Seeder
                 'group_id' => 1,
             ],
             [
-                'name' => 'Manajer Satu',
-                'email' => 'manajer1@mail.com',
+                'name' => 'Atasan Satu',
+                'email' => 'approver1@mail.com',
                 'password' => bcrypt($password),
                 'group_id' => 2,
             ],
             [
-                'name' => 'Manajer Dua',
-                'email' => 'manajer2@mail.com',
+                'name' => 'Atasan Dua',
+                'email' => 'approver2@mail.com',
                 'password' => bcrypt($password),
                 'group_id' => 2,
             ],
