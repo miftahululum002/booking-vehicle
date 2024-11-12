@@ -1,9 +1,22 @@
 <?php
 
 use App\Models\ActivityLog;
+use App\Models\Booking;
+use App\Models\BookingApproval;
+use App\Models\Driver;
 use App\Models\Employee;
+use App\Models\User;
 use App\Models\Vehicle;
 
+function getListEmployee()
+{
+    return getEmployeeData(null, false);
+}
+
+function getListDriver()
+{
+    return getDriverData(null, false);
+}
 
 function generateCodeVehicle()
 {
@@ -31,14 +44,64 @@ function generateCodeEmployee()
     return $prefix . str_pad($akhir, $padLength, '0', STR_PAD_LEFT);
 }
 
+function generateCodeDriver()
+{
+    $prefixs = getPrefixCode();
+    $prefix = $prefixs->driver;
+    $akhir = 1;
+    $padLength = $prefixs->pad;
+    $lastEntry = getLastRecordDriver();
+    if ($lastEntry) {
+        $akhir = intval(str_replace($prefix, '', $lastEntry->code)) + 1;
+    }
+    return $prefix . str_pad($akhir, $padLength, '0', STR_PAD_LEFT);
+}
+
+function generateCodeBooking()
+{
+    $prefixs = getPrefixCode();
+    $prefix = $prefixs->booking;
+    $akhir = 1;
+    $padLength = $prefixs->pad;
+    $lastEntry = getLastRecordBooking();
+    if ($lastEntry) {
+        $akhir = intval(str_replace($prefix, '', $lastEntry->code)) + 1;
+    }
+    return $prefix . str_pad($akhir, $padLength, '0', STR_PAD_LEFT);
+}
+
 function getLastRecordVehicle()
 {
     return getVehicleData(null, true);
 }
 
+function getLastRecordBooking()
+{
+    return getBookingData(null, true);
+}
+
+function getListVehicle()
+{
+    return getVehicleData(null, false);
+}
+
 function getLastRecordEmployee()
 {
     return getEmployeeData(null, true);
+}
+
+function getLastRecordDriver()
+{
+    return getDriverData(null, true);
+}
+
+function getListApprover($exceptId = null)
+{
+    $whereRaw = null;
+    if (!empty($exceptId)) {
+        $whereRaw = "id <> $exceptId";
+    }
+    return getUserData(['group_id' => 2], false, $whereRaw);
 }
 
 function getVehicleData($where = null, $single = true)
@@ -59,6 +122,47 @@ function getEmployeeData($where = null, $single = true)
     $columns = getColumns($model);
 
     $query = Employee::select($columns)->where($where)->orderBy('created_at', 'DESC');
+    if ($single) {
+        return $query->first();
+    }
+    return $query->get();
+}
+
+function getDriverData($where = null, $single = true)
+{
+    $model = new Driver();
+    $columns = getColumns($model);
+
+    $query = Driver::select($columns)->where($where)->orderBy('created_at', 'DESC');
+    if ($single) {
+        return $query->first();
+    }
+    return $query->get();
+}
+
+function getBookingData($where = null, $single = true)
+{
+    $model = new Booking();
+    $columns = getColumns($model);
+
+    $query = Booking::select($columns)->where($where)->orderBy('created_at', 'DESC');
+    if ($single) {
+        return $query->first();
+    }
+    return $query->get();
+}
+
+function getUserData($where = null, $single = true, $whereRaw = null)
+{
+    $model = new User();
+    $columns = getColumns($model);
+    $query = User::select($columns)->where($where)
+        ->where(function ($query) use ($whereRaw) {
+            if (!empty($whereRaw)) {
+                $query->whereRaw($whereRaw);
+            }
+        })
+        ->orderBy('created_at', 'DESC');
     if ($single) {
         return $query->first();
     }
@@ -153,4 +257,19 @@ function getTablePageLength()
 function getTableConfig()
 {
     return (object) config('miftahululum.table');
+}
+
+function createBooking($data)
+{
+    return Booking::create($data);
+}
+
+function createBookingApproval($data)
+{
+    return BookingApproval::create($data);
+}
+
+function insertBookingApproval($data)
+{
+    return BookingApproval::insert($data);
 }
