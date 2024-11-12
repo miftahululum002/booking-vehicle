@@ -35,6 +35,18 @@ class BookingReportExport implements FromQuery, WithMapping, WithTitle, WithHead
 
     public function map($row): array
     {
+        $approval = $row->approval;
+        // $colApproval = null;
+        $approval1 = null;
+        $approval2 = null;
+        foreach ($approval as $key => $value) {
+            $user = $value->user;
+            if ($value->order == 1) {
+                $approval1 = ['name' => $user->name, 'status' => $value->status == 1 ? 'Disetujui' : 'Belum/Tidak Disetujui'];
+            } else {
+                $approval2 = ['name' => $user->name, 'status' => $value->status == 1 ? 'Disetujui' : 'Belum/Tidak Disetujui'];
+            }
+        }
         return [
             $this->_number++,
             $row->code,
@@ -44,6 +56,10 @@ class BookingReportExport implements FromQuery, WithMapping, WithTitle, WithHead
             $row->date,
             $row->necessary,
             $row->status,
+            $approval1['name'],
+            $approval1['status'],
+            $approval2['name'],
+            $approval2['status'],
             $row->created_at,
         ];
     }
@@ -63,6 +79,10 @@ class BookingReportExport implements FromQuery, WithMapping, WithTitle, WithHead
             'Tanggal',
             'Keperluan',
             'Status',
+            'Approval 1',
+            'Status Approval 1',
+            'Approval 2',
+            'Status Approval 2',
             'Tanggal Entri',
         ];
     }
