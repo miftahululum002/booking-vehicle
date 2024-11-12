@@ -12,7 +12,7 @@ class BookingReportExport implements FromQuery, WithMapping, WithTitle, WithHead
 {
     private $_startDate;
     private $_endDate;
-    private $_number = 0;
+    private $_number = 1;
     private $_title = null;
 
     public function __construct($startDate, $endDate, $title = null)
@@ -36,15 +36,14 @@ class BookingReportExport implements FromQuery, WithMapping, WithTitle, WithHead
     public function map($row): array
     {
         $approval = $row->approval;
-        // $colApproval = null;
         $approval1 = null;
         $approval2 = null;
         foreach ($approval as $key => $value) {
             $user = $value->user;
             if ($value->order == 1) {
-                $approval1 = ['name' => $user->name, 'status' => $value->status == 1 ? 'Disetujui' : 'Belum/Tidak Disetujui'];
+                $approval1 = ['name' => $user->name, 'status' => $value->status == 1 ? 'Disetujui' : 'Belum/Tidak Disetujui', 'approve_at' => $value->approve_at];
             } else {
-                $approval2 = ['name' => $user->name, 'status' => $value->status == 1 ? 'Disetujui' : 'Belum/Tidak Disetujui'];
+                $approval2 = ['name' => $user->name, 'status' => $value->status == 1 ? 'Disetujui' : 'Belum/Tidak Disetujui', 'approve_at' => $value->approve_at];
             }
         }
         return [
@@ -58,8 +57,12 @@ class BookingReportExport implements FromQuery, WithMapping, WithTitle, WithHead
             $row->status,
             $approval1['name'],
             $approval1['status'],
+            $approval1['approve_at'],
             $approval2['name'],
             $approval2['status'],
+            $approval2['approve_at'],
+            $row->is_done == '1' ? 'Ya' : 'Belum',
+            $row->done_at,
             $row->created_at,
         ];
     }
@@ -81,8 +84,12 @@ class BookingReportExport implements FromQuery, WithMapping, WithTitle, WithHead
             'Status',
             'Approval 1',
             'Status Approval 1',
+            'Waktu Approve 1',
             'Approval 2',
             'Status Approval 2',
+            'Waktu Approve 2',
+            'Apakah Selesai',
+            'Waktu Selesai',
             'Tanggal Entri',
         ];
     }
