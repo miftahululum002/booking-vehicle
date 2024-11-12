@@ -40,7 +40,8 @@ class ApprovalBookingsDataTable extends DataTable
                     $return .= 'Pegawai: ' . $employee->name;
                 }
                 if ($booking) {
-                    $return .= '<br/>Tanggal: ' . $booking->date . '<br/>Tujuan: ' . $booking->necessary;
+                    $return .= '<br/>Tanggal: ' . $booking->date . '<br/>Tujuan: ' . $booking->necessary .
+                        '<br/>Status: ' . $booking->status;
                 }
                 if ($vehicle) {
                     $return .= '<br/>Kendaraan: ' . $vehicle->code . ' - ' . $vehicle->name;
@@ -59,6 +60,9 @@ class ApprovalBookingsDataTable extends DataTable
             ->addColumn('necessary', function ($query) {
                 return $query->booking->necessary;
             })
+            ->addColumn('status', function ($query) {
+                return $query->status == '0' ? 'Belum/Tidak disetujui' : 'Setuju';
+            })
             ->addColumn('vehicle', function ($query) {
                 $vehicle = $query->booking->vehicle;
                 $return = null;
@@ -68,9 +72,9 @@ class ApprovalBookingsDataTable extends DataTable
                 return $return;
             })
             ->addColumn('action', function ($query) {
-                return null;
+                return '<button type="button" onclick="approve(' . "'" . $query->booking->id . "','" . $query->id . "'" . ')" class="btn btn-primary btn-sm rounded-0">Setujui</button>';
             })
-            ->rawColumns(['booking'])
+            ->rawColumns(['action', 'booking'])
             ->setRowId('id');
     }
 
@@ -82,7 +86,8 @@ class ApprovalBookingsDataTable extends DataTable
         $userId = $this->_userId;
         return $model->newQuery()
             ->with('booking')
-            ->where('user_id', $userId);
+            ->where('user_id', $userId)
+            ->where('status', '0');
     }
 
     /**
@@ -119,8 +124,10 @@ class ApprovalBookingsDataTable extends DataTable
             Column::make('number')->title('No')->render('meta.row + meta.settings._iDisplayStart + 1;')->width(10)->orderable(false)->searchable(false),
             Column::make('code')->title('Kode'),
             Column::make('booking')->title('Informasi'),
+            Column::make('status')->title('Status Persetujuan'),
             Column::make('order')->title('Urutan Persetujuan'),
             Column::computed('action')
+                ->title('Opsi')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

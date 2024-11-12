@@ -121,7 +121,8 @@
                 location.reload();
             },
             error: (xhr) => {
-                alert(response.error);
+                let response = xhr.responseJSON;
+                alert(response.message);
             }
         });
     })

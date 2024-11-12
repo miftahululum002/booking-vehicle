@@ -81,4 +81,34 @@ class BookingController extends Controller
             ], 500);
         }
     }
+
+    public function setDone(Request $request)
+    {
+        $input = $request->validate([
+            'booking_id' => 'required|exists:bookings,id',
+        ]);
+        $bookingId = $input['booking_id'];
+        $userId = getUserLoginId();
+        try {
+            updateBooking($input['booking_id'], [
+                'is_done' => '1',
+                'done_at' => date('Y-m-d H:i:s'),
+                'done_by' => $userId
+            ]);
+            setActivityLog('Set done booking:' . $bookingId, $input);
+            return response()->json([
+                'code' => 200,
+                'message' => 'Proses berhasil dilakukan',
+                'error' => null,
+                'data' => null,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'code' => 500,
+                'message' => 'Proses gagal dilakukan',
+                'data' => null,
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }

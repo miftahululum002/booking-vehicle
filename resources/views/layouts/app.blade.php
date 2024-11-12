@@ -15,6 +15,9 @@
     <link href="{{asset('static')}}/css/dashboard.css" rel="stylesheet" />
     <link href="{{asset('static')}}/css/style.css" rel="stylesheet" />
     @stack('styles')
+    <script>
+        const token = `{{csrf_token()}}`;
+    </script>
 </head>
 
 <body>

@@ -13,4 +13,31 @@
 @endsection
 @push('scripts')
 {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+<script>
+    function setDone(bookingId) {
+        let warning = confirm('Apakah Anda yakin?');
+        if (!warning) {
+            return;
+        }
+        $.ajax({
+            type: 'ajax',
+            method: 'post',
+            url: `{{route('dashboard.bookings.set-done')}}`,
+            dataType: 'json',
+            data: {
+                _token: token,
+                booking_id: bookingId,
+            },
+            beforeSend: () => {},
+            success: (response) => {
+                alert(response.message);
+                location.reload();
+            },
+            error: (xhr) => {
+                let response = xhr.responseJSON;
+                alert(response.message);
+            }
+        });
+    }
+</script>
 @endpush

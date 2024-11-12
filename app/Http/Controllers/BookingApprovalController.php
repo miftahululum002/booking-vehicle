@@ -29,44 +29,36 @@ class BookingApprovalController extends Controller
         return $this->render('create');
     }
 
-    public function getApprover(Request $request)
+    public function approve(Request $request)
     {
         $input = $request->validate([
-            'user_id' => 'required',
+            'booking_id'   => 'required',
+            'approve_id'    => 'required|exists:booking_approvals,id',
         ]);
-        $result = getListApprover($input['user_id']);
-        return response()->json([
-            'message' => 'Success',
-            'code' => 200,
-            'data' => $result,
-        ], 200);
-    }
-
-    public function store(Request $request)
-    {
-        $input = $request->validate([
-            'employee_id'   => 'required',
-            'vehicle_id'    => 'required',
-            'driver_id'     => 'required',
-            'user_id'       => 'required',
-            'date'          => 'required',
-            'necessary'     => 'required',
-        ]);
-        $booking = $input;
-        $approvals = $input['user_id'];
-        unset($booking['user_id']);
-        $booking['code'] = generateCodeBooking();
-
+        $userId = getUserLoginId();
+        $bookingId = $input['booking_id'];
+        $approveId = $input['approve_id'];
+        $approveData = getBookingApprovalById($approveId);
+        $order = $approveData->order;
+        if ($order != 1) {
+            $cekFirst = getBookingApprovalPertama($bookingId);
+            if ($cekFirst->status != '1') {
+                $code = '401';
+                return response()->json([
+                    'code' => $code,
+                    'message' => 'Approver sebelumnya belum menyetujui',
+                    'error' => 'Approver sebelumnya belum menyetujui',
+                ], $code);
+            }
+        }
+        $jumlahApproval = getCountAllApprovalBooking($bookingId);
         try {
-            $store = createBooking($booking);
-            $bookingId = $store->id;
-            foreach ($approvals as $key => $value) {
-                $approval = [
-                    'booking_id' => $bookingId,
-                    'user_id' => $value,
-                    'status' => '0',
-                ];
-                createBookingApproval($approval);
+            updateBookingApproval($approveId, ['status' => '1', 'updated_by' => $userId]);
+            $cek = getCountBookingApprovalApprove($bookingId);
+            if ($cek == $jumlahApproval) {
+                updateBooking($bookingId, ['status' => 'APPROVED', 'updated_by' => $userId]);
+            } else {
+                updateBooking($bookingId, ['status' => 'APPROVAL', 'updated_by' => $userId]);
             }
             return response()->json([
                 'code'      => 200,

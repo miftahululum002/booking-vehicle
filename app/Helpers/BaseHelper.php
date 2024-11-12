@@ -133,6 +133,28 @@ function getEmployeeData($where = null, $single = true)
     return $query->get();
 }
 
+function getBookingApprovalPertama($bookingId)
+{
+    return getBookingApprovalData(['booking_id' => $bookingId, 'order' => '1'], true);
+}
+
+function getBookingApprovalById($id)
+{
+    return getBookingApprovalData(['id' => $id], true);
+}
+
+function getBookingApprovalData($where = null, $single = true)
+{
+    $model = new BookingApproval();
+    $columns = getColumns($model);
+
+    $query = BookingApproval::select($columns)->where($where)->orderBy('created_at', 'DESC');
+    if ($single) {
+        return $query->first();
+    }
+    return $query->get();
+}
+
 function getDriverData($where = null, $single = true)
 {
     $model = new Driver();
@@ -269,6 +291,11 @@ function createBooking($data)
     return Booking::create($data);
 }
 
+function updateBooking($id, $data)
+{
+    return Booking::where('id', $id)->update($data);
+}
+
 function createBookingApproval($data)
 {
     return BookingApproval::create($data);
@@ -277,6 +304,32 @@ function createBookingApproval($data)
 function insertBookingApproval($data)
 {
     return BookingApproval::insert($data);
+}
+
+function getCountAllApprovalBooking($bookingId)
+{
+    return getCountBookingApproval($bookingId);
+}
+
+function getCountBookingApprovalApprove($bookingId)
+{
+    return getCountBookingApproval($bookingId, '1');
+}
+
+function getCountBookingApproval($bookingId, $status = null)
+{
+    return BookingApproval::where('booking_id', $bookingId)
+        ->where(function ($query) use ($status) {
+            if (isset($status)) {
+                $query->where('status', $status);
+            }
+        })
+        ->count();
+}
+
+function updateBookingApproval($id, $data)
+{
+    return BookingApproval::where('id', $id)->update($data);
 }
 
 function getListBookingByApprovalUserId($userId)

@@ -39,8 +39,14 @@ class BookingsDataTable extends DataTable
                 return $return;
             })
             ->addColumn('action', function ($query) {
-                return null;
+                $return = null;
+                $status = $query->status;
+                if ($status == 'APPROVED' && $query->is_done == '0') {
+                    $return .= '<button type="button" class="btn btn-primary btn-sm rounded-0" onclick="setDone(' . "'" . $query->id . "'" . ')">Selesaikan</button>';
+                }
+                return $return;
             })
+            ->rawColumns(['action'])
             ->setRowId('id');
     }
 
@@ -89,7 +95,9 @@ class BookingsDataTable extends DataTable
             Column::make('vehicle')->title('Kendaraan'),
             Column::make('date')->title('Tanggal'),
             Column::make('necessary')->title('Tujuan'),
+            Column::make('status')->title('Status'),
             Column::computed('action')
+                ->title('Opsi')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
