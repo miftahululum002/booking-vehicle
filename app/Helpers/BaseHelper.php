@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\ActivityLog;
+use App\Models\Employee;
 use App\Models\Vehicle;
 
 
@@ -17,9 +18,27 @@ function generateCodeVehicle()
     return $prefix . str_pad($akhir, $padLength, '0', STR_PAD_LEFT);
 }
 
+function generateCodeEmployee()
+{
+    $prefixs = getPrefixCode();
+    $prefix = $prefixs->employee;
+    $akhir = 1;
+    $padLength = $prefixs->pad;
+    $lastEntry = getLastRecordEmployee();
+    if ($lastEntry) {
+        $akhir = intval(str_replace($prefix, '', $lastEntry->code)) + 1;
+    }
+    return $prefix . str_pad($akhir, $padLength, '0', STR_PAD_LEFT);
+}
+
 function getLastRecordVehicle()
 {
     return getVehicleData(null, true);
+}
+
+function getLastRecordEmployee()
+{
+    return getEmployeeData(null, true);
 }
 
 function getVehicleData($where = null, $single = true)
@@ -28,6 +47,18 @@ function getVehicleData($where = null, $single = true)
     $columns = getColumns($model);
 
     $query = Vehicle::select($columns)->where($where)->orderBy('created_at', 'DESC');
+    if ($single) {
+        return $query->first();
+    }
+    return $query->get();
+}
+
+function getEmployeeData($where = null, $single = true)
+{
+    $model = new Employee();
+    $columns = getColumns($model);
+
+    $query = Employee::select($columns)->where($where)->orderBy('created_at', 'DESC');
     if ($single) {
         return $query->first();
     }
