@@ -11,17 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bookings', function (Blueprint $table) {
+        Schema::create('drivers', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->string('code', 20)->unique();
-            $table->foreignId('vehicle_id')->constrained('vehicles')->restrictOnDelete()->cascadeOnUpdate();
-            $table->foreignId('employee_id')->constrained('employees')->restrictOnDelete()->cascadeOnUpdate();
-            $table->date('date');
-            $table->text('necessary');
-            $table->enum('status', ['SUBMITTED', 'APPROVAL', 'APPROVED', 'REJECTED'])->default('SUBMITTED');
-            $table->enum('is_done', ['0', '1'])->default('1');
-            $table->integer('done_by')->nullable();
-            $table->timestamp('done_at')->nullable();
             $table->text('description')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->integer('created_by')->nullable();
@@ -41,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bookings');
+        Schema::dropIfExists('drivers');
     }
 };
