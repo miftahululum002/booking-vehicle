@@ -1,16 +1,17 @@
-# api-backend-laravel
+# booking-vehicle
 
 ## Getting started
 
-Api backend dengan framework laravel. Api dikembangkan oleh <a href="https://miftahululum002.github.io/" target="_blank">Miftahul Ulum</a>. Anda dapat menghubungi saya melalui email <a href="mailto:ulumiftahul06@gmail.">ulumiftahul06@gmail.com</a>
+Sistem pemesanan kendaraan dengan framework laravel versi 11. PHP versi 8.0. Database MySQL versi 8.<br/>
+Sistem ini dikembangkan oleh <a href="https://miftahululum002.github.io/" target="_blank">Miftahul Ulum</a>. Anda dapat menghubungi saya melalui email <a href="mailto:ulumiftahul06@gmail.">ulumiftahul06@gmail.com</a>
 
 ## Langkah-langkah untuk menginstall aplikasi
 
 <ol>
-<li>Clone repository dengan perintah
+<li>Clone project ini dengan perintah
 
 ```
-git clone https://github.com/miftahululum002/api-backend-laravel.git
+git clone https://github.com/miftahululum002/booking-vehicle.git
 ```
 
 </li>
@@ -57,16 +58,25 @@ php artisan serve
 ```
 
 </li>
-<li>
-Gunakan postman untuk melakukan request
-</li>
 </ol>
 
-## Unit Test
+## Daftar Credential User
 
-```
-php artisan test
-```
+<ul>
+<li>Admin<br/>
+email: admin@mail.com <br/>
+pass: password
+</li>
+<li>
+Pihak Yang Menyetujui<br/>
+email: approver1@mail.com <br/>
+pass: password<br/>
+<br/>
+email: approver2@mail.com <br/>
+pass: password<br/>
+
+</li>
+</ul>
 
 ## Host
 
