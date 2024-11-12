@@ -13,6 +13,7 @@ class BookingApproval extends Model
         'booking_id',
         'user_id',
         'status',
+        'order',
         'description',
         'created_at',
         'created_by',
@@ -27,4 +28,9 @@ class BookingApproval extends Model
     ];
 
     public $timestamps = false;
+
+    public function booking()
+    {
+        return $this->hasOne(Booking::class, 'id', 'booking_id');
+    }
 }
