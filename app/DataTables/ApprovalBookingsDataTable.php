@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\BookingApproval as Model;
+use App\Models\Booking as Model;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -15,12 +15,17 @@ use Yajra\DataTables\Services\DataTable;
 class ApprovalBookingsDataTable extends DataTable
 {
     private $_userId = null;
-    public function __construct($userId = null)
+    private $_bookingId = null;
+    public function __construct($userId = null, $bookingId = null)
     {
         if (empty($userId)) {
             $userId = getUserLoginId();
         }
+        if (empty($bookingId)) {
+            $bookingId = getBookingIdByApprovalUserId($userId);
+        }
         $this->_userId = $userId;
+        $this->_bookingId = $bookingId;
     }
     /**
      * Build the DataTable class.
@@ -29,20 +34,18 @@ class ApprovalBookingsDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+        $userId = $this->_userId;
         return (new EloquentDataTable($query))
             ->addColumn('booking', function ($query) {
-                $booking = $query->booking;
-                $employee = $booking->employee;
-                $vehicle = $booking->vehicle;
-                $driver = $booking->driver;
+                $employee = $query->employee;
+                $vehicle = $query->vehicle;
+                $driver = $query->driver;
                 $return = null;
                 if ($employee) {
                     $return .= 'Pegawai: ' . $employee->name;
                 }
-                if ($booking) {
-                    $return .= '<br/>Tanggal: ' . $booking->date . '<br/>Keperluan: ' . $booking->necessary .
-                        '<br/>Status: ' . $booking->status;
-                }
+                $return .= '<br/>Tanggal: ' . $query->date . '<br/>Keperluan: ' . $query->necessary .
+                    '<br/>Status: ' . $query->status;
                 if ($vehicle) {
                     $return .= '<br/>Kendaraan: ' . $vehicle->code . ' - ' . $vehicle->name;
                 }
@@ -51,27 +54,57 @@ class ApprovalBookingsDataTable extends DataTable
                 }
                 return $return;
             })
-            ->addColumn('code', function ($query) {
-                return $query->booking->code;
+            ->addColumn('approval1', function ($query) use ($userId) {
+                $return = null;
+                $approval = $query->approval->where('order', 1)->first();
+                if ($approval) {
+                    $return = $approval->user->name . '<br/>Status:';
+                    if ($approval->status == 1) {
+                        $return .= '<b>Disetujui</b><br/>Waktu Approve: <b>' . $approval->approve_at . '</b>';
+                    } else {
+                        $return .= '<b>Belum/Tidak Disetujui</b>';
+                    }
+                }
+                return $return;
             })
-            ->addColumn('date', function ($query) {
-                return $query->booking->date;
+            ->addColumn('approval2', function ($query) use ($userId) {
+                $return = null;
+                $approval = $query->approval->where('order', 2)->first();
+                if ($approval) {
+                    $return = $approval->user->name . '<br/>Status:';
+                    if ($approval->status == 1) {
+                        $return .= '<b>Disetujui</b><br/>Waktu Approve: <b>' . $approval->approve_at . '</b>';
+                    } else {
+                        $return .= '<b>Belum/Tidak Disetujui</b>';
+                    }
+                }
+                return $return;
             })
-            ->addColumn('status', function ($query) {
-                return $query->status == '0' ? 'Belum/Tidak disetujui' : 'Setuju';
+            ->addColumn('order', function ($query) use ($userId) {
+                $return = null;
+                $approval = $query->approval->where('user_id', $userId)->first();
+                if ($approval) {
+                    $return = $approval->order;
+                }
+                return $return;
             })
             ->addColumn('vehicle', function ($query) {
-                $vehicle = $query->booking->vehicle;
+                $vehicle = $query->vehicle;
                 $return = null;
                 if ($vehicle) {
                     $return = $vehicle->name;
                 }
                 return $return;
             })
-            ->addColumn('action', function ($query) {
-                return '<button type="button" onclick="approve(' . "'" . $query->booking->id . "','" . $query->id . "'" . ')" class="btn btn-primary btn-sm rounded-0">Setujui</button>';
+            ->addColumn('action', function ($query) use ($userId) {
+                $approval = $query->approval->where('user_id', $userId)->first();
+                if ($approval->status == '0') {
+                    return '<button type="button" onclick="approve(' . "'" . $query->id . "','" . $approval->id . "'" . ')" class="btn btn-primary btn-sm rounded-0">Setujui</button>';
+                } else {
+                    return 'Sudah Disetujui';
+                }
             })
-            ->rawColumns(['action', 'booking'])
+            ->rawColumns(['action', 'booking', 'approval1', 'approval2'])
             ->setRowId('id');
     }
 
@@ -81,10 +114,19 @@ class ApprovalBookingsDataTable extends DataTable
     public function query(Model $model): QueryBuilder
     {
         $userId = $this->_userId;
+        $bookingIdIn = $this->_bookingId;
+        // if (empty($bookingIdIn)) {
+        //     return null;
+        // }
         return $model->newQuery()
-            ->with('booking')
-            ->where('user_id', $userId)
-            ->where('status', '0');
+            ->where(function ($query) use ($bookingIdIn) {
+                if (!empty($bookingIdIn)) {
+                    $query->whereIn('id', $bookingIdIn);
+                } else {
+                    // dapatkan data kosong
+                    $query->where('code', '');
+                }
+            });
     }
 
     /**
@@ -121,7 +163,8 @@ class ApprovalBookingsDataTable extends DataTable
             Column::make('number')->title('No')->render('meta.row + meta.settings._iDisplayStart + 1;')->width(10)->orderable(false)->searchable(false),
             Column::make('code')->title('Kode'),
             Column::make('booking')->title('Informasi'),
-            Column::make('status')->title('Status Persetujuan'),
+            Column::make('approval1')->title('Approval 1'),
+            Column::make('approval2')->title('Approval 2'),
             Column::make('order')->title('Urutan Persetujuan'),
             Column::computed('action')
                 ->title('Opsi')
