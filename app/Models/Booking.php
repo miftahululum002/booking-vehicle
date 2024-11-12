@@ -13,6 +13,7 @@ class Booking extends Model
         'code',
         'vehicle_id',
         'employee_id',
+        'driver_id',
         'date',
         'necessary',
         'status',
@@ -42,5 +43,15 @@ class Booking extends Model
     public function vehicle()
     {
         return $this->hasOne(Vehicle::class, 'id', 'vehicle_id');
+    }
+
+    public function driver()
+    {
+        return $this->hasOne(Driver::class, 'id', 'driver_id');
+    }
+
+    public function approval()
+    {
+        return $this->hasMany(BookingApproval::class, 'booking_id', 'id');
     }
 }
