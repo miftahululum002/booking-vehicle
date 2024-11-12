@@ -22,7 +22,17 @@ class VehiclesDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'users.action')
+            ->addColumn('category', function ($query) {
+                $category = $query->category;
+                $return = null;
+                if ($category) {
+                    $return = $category->name;
+                }
+                return $return;
+            })
+            ->addColumn('action', function ($query) {
+                return null;
+            })
             ->setRowId('id');
     }
 
@@ -64,15 +74,17 @@ class VehiclesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('number')->title('No')->render('meta.row + meta.settings._iDisplayStart + 1;')->width(10)->orderable(false)->searchable(false),
+            // Column::make('id'),
+            Column::make('name')->title('Nama'),
+            Column::make('code')->title('Kode'),
+            Column::make('merk')->title('Merek'),
+            Column::make('category')->title('Kategori'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 
