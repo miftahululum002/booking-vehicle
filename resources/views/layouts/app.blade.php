@@ -126,7 +126,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2" href="#">
+                                <a class="nav-link d-flex align-items-center gap-2" href="{{route('dashboard.bookings.index')}}">
                                     <svg class="bi">
                                         <use xlink:href="#file-earmark" />
                                     </svg>
@@ -137,11 +137,6 @@
 
                         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
                             <span>Data Master</span>
-                            <a class="link-secondary" href="#" aria-label="Add a new report">
-                                <svg class="bi">
-                                    <use xlink:href="#plus-circle" />
-                                </svg>
-                            </a>
                         </h6>
                         <ul class="nav flex-column mb-auto">
                             <li class="nav-item">
@@ -150,30 +145,6 @@
                                         <use xlink:href="#file-earmark-text" />
                                     </svg>
                                     Kendaraan
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                                    <svg class="bi">
-                                        <use xlink:href="#file-earmark-text" />
-                                    </svg>
-                                    Last quarter
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                                    <svg class="bi">
-                                        <use xlink:href="#file-earmark-text" />
-                                    </svg>
-                                    Social engagement
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                                    <svg class="bi">
-                                        <use xlink:href="#file-earmark-text" />
-                                    </svg>
-                                    Year-end sale
                                 </a>
                             </li>
                         </ul>
@@ -219,9 +190,7 @@
                                 </a>
                             </li>
                         </ul>
-
                         <hr class="my-3">
-
                         <ul class="nav flex-column mb-auto">
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center gap-2" href="#">
