@@ -43,6 +43,8 @@ class BookingsDataTable extends DataTable
                 $status = $query->status;
                 if ($status == 'APPROVED' && $query->is_done == '0') {
                     $return .= '<button type="button" class="btn btn-primary btn-sm rounded-0" onclick="setDone(' . "'" . $query->id . "'" . ')">Selesaikan</button>';
+                } else {
+                    $return .= '-';
                 }
                 return $return;
             })
