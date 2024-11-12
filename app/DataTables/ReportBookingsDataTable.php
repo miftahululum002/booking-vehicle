@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Employee as Model;
+use App\Models\Booking as Model;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,8 +12,18 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class EmployeesDataTable extends DataTable
+class ReportBookingsDataTable extends DataTable
 {
+    private $_startDate = null;
+    private $_endDate = null;
+
+    public function __construct($startDate = null, $endDate = null)
+    {
+        $startDate = !empty($startDate) ? $startDate : date('Y-m-d');
+        $endDate = !empty($endDate) ? $endDate : date('Y-m-d');
+        $this->_startDate = $startDate;
+        $this->_endDate = $endDate;
+    }
     /**
      * Build the DataTable class.
      *
@@ -22,17 +32,31 @@ class EmployeesDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('category', function ($query) {
-                $category = $query->category;
+            ->addColumn('employee', function ($query) {
+                $employee = $query->employee;
                 $return = null;
-                if ($category) {
-                    $return = $category->name;
+                if ($employee) {
+                    $return = $employee->name;
+                }
+                return $return;
+            })
+            ->addColumn('vehicle', function ($query) {
+                $vehicle = $query->vehicle;
+                $return = null;
+                if ($vehicle) {
+                    $return = $vehicle->name;
                 }
                 return $return;
             })
             ->addColumn('action', function ($query) {
-                return null;
+                $return = null;
+                $status = $query->status;
+                if ($status == 'APPROVED' && $query->is_done == '0') {
+                    $return .= '<button type="button" class="btn btn-primary btn-sm rounded-0" onclick="setDone(' . "'" . $query->id . "'" . ')">Selesaikan</button>';
+                }
+                return $return;
             })
+            ->rawColumns(['action'])
             ->setRowId('id');
     }
 
@@ -41,7 +65,12 @@ class EmployeesDataTable extends DataTable
      */
     public function query(Model $model): QueryBuilder
     {
-        return $model->newQuery();
+        $startDate = $this->_startDate;
+        $endDate = $this->_endDate;
+        return $model->newQuery()
+            ->where(function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('date', [$startDate, $endDate]);
+            });
     }
 
     /**
@@ -76,13 +105,12 @@ class EmployeesDataTable extends DataTable
         return [
             Column::make('number')->title('No')->render('meta.row + meta.settings._iDisplayStart + 1;')->width(10)->orderable(false)->searchable(false),
             // Column::make('id'),
-            Column::make('name')->title('Nama'),
+            Column::make('employee')->title('Pegawai'),
             Column::make('code')->title('Kode'),
-            Column::make('gender')->title('Jenis Kelamin'),
-            Column::make('identity_number')->title('NIK'),
-            Column::make('email')->title('Email'),
-            Column::make('phone_number')->title('No HP'),
-            Column::make('address')->title('Alamat'),
+            Column::make('vehicle')->title('Kendaraan'),
+            Column::make('date')->title('Tanggal'),
+            Column::make('necessary')->title('Tujuan'),
+            Column::make('status')->title('Status'),
             Column::computed('action')
                 ->title('Opsi')
                 ->exportable(false)

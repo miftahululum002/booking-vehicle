@@ -66,7 +66,7 @@ class BookingsDataTable extends DataTable
         return $this->builder()
             ->setTableId(getTableId())
             ->columns($this->getColumns())
-            ->minifiedAjax()
+            ->minifiedAjax('', scriptMinifields('#data_filter'))
             //->dom('Bfrtip')
             ->orderBy(1)
             ->addTableClass(getTableClass())
