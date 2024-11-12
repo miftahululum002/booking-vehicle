@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('date');
             $table->text('necessary');
             $table->enum('status', ['SUBMITTED', 'APPROVAL', 'APPROVED', 'REJECTED'])->default('SUBMITTED');
-            $table->enum('is_done', ['0', '1'])->default('1');
+            $table->enum('is_done', ['0', '1'])->default('0');
             $table->integer('done_by')->nullable();
             $table->timestamp('done_at')->nullable();
             $table->text('description')->nullable();
