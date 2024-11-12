@@ -67,6 +67,7 @@ Route::middleware(['auth'])->group(function () {
                         Route::prefix('reports')->group(function () {
                             Route::controller(ReportController::class)->group(function () {
                                 Route::get('/', 'index')->name('index');
+                                Route::get('/export', 'export')->name('export');
                             });
                         });
                     });

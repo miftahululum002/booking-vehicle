@@ -17,6 +17,7 @@
     @stack('styles')
     <script>
         const token = `{{csrf_token()}}`;
+        const table = `{{$table}}`;
     </script>
 </head>
 
@@ -227,6 +228,11 @@
     <script src="{{asset('static')}}/libraries/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="{{asset('static')}}/libraries/chart.js/chart.umd.js"></script>
     @stack('scripts')
+    <script>
+        function reloadDatatable() {
+            $(`#${table}`).DataTable().ajax.reload();
+        }
+    </script>
 </body>
 
 </html>

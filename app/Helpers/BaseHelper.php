@@ -348,3 +348,14 @@ function getDataChart($startDate = null, $endDate = null)
         ->get();
     return $result;
 }
+
+function scriptMinifields($selector)
+{
+    // Script to minified the ajax
+    return <<<CDATA
+    var formData = $("$selector").serializeArray();
+    $.each(formData, function(i, obj){
+        data[obj.name] = obj.value;
+    });
+CDATA;
+}

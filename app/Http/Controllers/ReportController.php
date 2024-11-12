@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\BookingsDataTable;
+use App\DataTables\ReportBookingsDataTable;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -10,9 +10,11 @@ class ReportController extends Controller
 {
     protected $directory = 'report';
 
-    public function index()
+    public function index(Request $request)
     {
-        $datatable = new BookingsDataTable();
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+        $datatable = new ReportBookingsDataTable($startDate, $endDate);
         $this->data['title'] = 'Laporan';
         return $this->renderDatatable('index', $datatable);
     }

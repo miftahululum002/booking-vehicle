@@ -30,6 +30,7 @@ abstract class Controller
         if ($userLogin) {
             $this->data['user_login'] = $userLogin;
         }
+        $this->data['table'] = getTableId();
     }
 
     private function getView($filename)
