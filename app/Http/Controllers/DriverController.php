@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\VehiclesDataTable;
+use App\DataTables\DriversDataTable;
 use Illuminate\Http\Request;
 
 class DriverController extends Controller
@@ -11,7 +11,7 @@ class DriverController extends Controller
 
     public function index()
     {
-        $datatable = new VehiclesDataTable();
+        $datatable = new DriversDataTable();
         $this->data['title'] = 'Sopir';
         return $this->renderDatatable('index', $datatable);
     }
