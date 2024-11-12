@@ -14,7 +14,7 @@ class EmployeeSeeder extends Seeder
     public function run(): void
     {
 
-        $length = 1;
+        $length = 2;
         for ($i = 1; $i <= $length; $i++) {
             $object = [
                 'name'              => 'Employee ' . $i,
