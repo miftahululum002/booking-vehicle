@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class BookingApprovalController extends Controller
 {
-    protected $directory = 'booking';
+    protected $directory = 'bookingapproval';
 
     public function index()
     {
