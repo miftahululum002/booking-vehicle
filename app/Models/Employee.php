@@ -4,16 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Vehicle extends Model
+class Employee extends Model
 {
-    protected $table = 'vehicles';
+    protected $table = 'employees';
     protected $guarded = ['id'];
     protected $primaryKey = 'id';
     protected $fillable = [
         'name',
         'code',
-        'category_id',
-        'merk',
+        'identity_number',
+        'phone_number',
+        'email',
+        'gender',
+        'address',
         'description',
         'created_at',
         'created_by',
