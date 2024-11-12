@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\VehiclesDataTable;
+use App\DataTables\EmployeesDataTable;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -11,7 +11,7 @@ class EmployeeController extends Controller
 
     public function index()
     {
-        $datatable = new VehiclesDataTable();
+        $datatable = new EmployeesDataTable();
         $this->data['title'] = 'Pegawai';
         return $this->renderDatatable('index', $datatable);
     }
