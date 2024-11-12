@@ -7,6 +7,7 @@ use App\Models\Driver;
 use App\Models\Employee;
 use App\Models\User;
 use App\Models\Vehicle;
+use Illuminate\Support\Facades\DB;
 
 function getListEmployee()
 {
@@ -335,4 +336,15 @@ function updateBookingApproval($id, $data)
 function getListBookingByApprovalUserId($userId)
 {
     return BookingApproval::where('user_id', $userId)->get();
+}
+
+
+function getDataChart($startDate = null, $endDate = null)
+{
+    $startDate = !empty($startDate) ? $startDate : date('Y-m-d');
+    $endDate = !empty($endDate) ? $endDate : date('Y-m-d');
+    $result  = DB::table('vehicles as v')
+        ->selectRaw("v.name, v.code, (select count(id) from bookings b where b.vehicle_id = v.id and b.date between '$startDate' and '$endDate') as jumlah")
+        ->get();
+    return $result;
 }
