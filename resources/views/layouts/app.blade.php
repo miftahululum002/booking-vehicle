@@ -112,7 +112,7 @@
             <div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
                 <div class="offcanvas-md offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
                     <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="sidebarMenuLabel">Company name</h5>
+                        <h5 class="offcanvas-title" id="sidebarMenuLabel">{{$app_name}}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
@@ -125,6 +125,7 @@
                                     Dashboard
                                 </a>
                             </li>
+                            @if($user_login->group_id ==1)
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center gap-2" href="{{route('dashboard.bookings.index')}}">
                                     <svg class="bi">
@@ -133,8 +134,19 @@
                                     Booking
                                 </a>
                             </li>
+                            @endif
+                            @if($user_login->group_id ==2)
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center gap-2" href="{{route('dashboard.approvals.index')}}">
+                                    <svg class="bi">
+                                        <use xlink:href="#file-earmark" />
+                                    </svg>
+                                    Booking
+                                </a>
+                            </li>
+                            @endif
                         </ul>
-
+                        @if($user_login->group_id ==1)
                         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
                             <span>Data Master</span>
                         </h6>
@@ -147,14 +159,26 @@
                                     Kendaraan
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center gap-2" href="{{route('dashboard.employees.index')}}">
+                                    <svg class="bi">
+                                        <use xlink:href="#file-earmark-text" />
+                                    </svg>
+                                    Pegawai
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center gap-2" href="{{route('dashboard.drivers.index')}}">
+                                    <svg class="bi">
+                                        <use xlink:href="#file-earmark-text" />
+                                    </svg>
+                                    Sopir
+                                </a>
+                            </li>
                         </ul>
+                        @endif
                         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
-                            <span>Saved reports</span>
-                            <a class="link-secondary" href="#" aria-label="Add a new report">
-                                <svg class="bi">
-                                    <use xlink:href="#plus-circle" />
-                                </svg>
-                            </a>
+                            <span>Laporan</span>
                         </h6>
                         <ul class="nav flex-column mb-auto">
                             <li class="nav-item">
@@ -192,14 +216,6 @@
                         </ul>
                         <hr class="my-3">
                         <ul class="nav flex-column mb-auto">
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                                    <svg class="bi">
-                                        <use xlink:href="#gear-wide-connected" />
-                                    </svg>
-                                    Settings
-                                </a>
-                            </li>
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center gap-2" href="{{route('logout')}}">
                                     <svg class="bi">
