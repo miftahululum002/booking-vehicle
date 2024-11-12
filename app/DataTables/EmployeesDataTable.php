@@ -31,7 +31,7 @@ class EmployeesDataTable extends DataTable
                 return $return;
             })
             ->addColumn('action', function ($query) {
-                return null;
+                return getOptionData();
             })
             ->setRowId('id');
     }
