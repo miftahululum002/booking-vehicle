@@ -26,6 +26,10 @@ abstract class Controller
         $this->data['app_name'] = $app->name;
         $author = getAuthor();
         $this->data['author'] = $author;
+        $userLogin = getUserLogin();
+        if ($userLogin) {
+            $this->data['user_login'] = $userLogin;
+        }
     }
 
     private function getView($filename)
