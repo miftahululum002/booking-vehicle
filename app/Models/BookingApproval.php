@@ -15,6 +15,7 @@ class BookingApproval extends Model
         'status',
         'order',
         'description',
+        'approve_at',
         'created_at',
         'created_by',
         'updated_at',
