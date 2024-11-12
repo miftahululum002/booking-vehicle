@@ -48,15 +48,47 @@ class ReportBookingsDataTable extends DataTable
                 }
                 return $return;
             })
-            ->addColumn('action', function ($query) {
+            ->addColumn('approval1', function ($query) {
+                $approval = $query->approval->where('order', 1)->first();
                 $return = null;
-                $status = $query->status;
-                if ($status == 'APPROVED' && $query->is_done == '0') {
-                    $return .= '<button type="button" class="btn btn-primary btn-sm rounded-0" onclick="setDone(' . "'" . $query->id . "'" . ')">Selesaikan</button>';
+                if ($approval) {
+                    $return = $approval->user->name . '<br/>Status:';
+                    if ($approval->status == 1) {
+                        $return .= '<b>Disetujui</b><br/>Waktu Approve: <b>' . $approval->approve_at . '</b>';
+                    } else {
+                        $return .= '<b>Belum/Tidak Disetujui</b>';
+                    }
                 }
                 return $return;
             })
-            ->rawColumns(['action'])
+            ->addColumn('approval2', function ($query) {
+                $approval = $query->approval->where('order', 2)->first();
+                $return = null;
+                if ($approval) {
+                    $return = $approval->user->name . '<br/>Status:';
+                    if ($approval->status == 1) {
+                        $return .= '<b>Disetujui</b><br/>Waktu Approve: <b>' . $approval->approve_at . '</b>';
+                    } else {
+                        $return .= '<b>Belum/Tidak Disetujui</b>';
+                    }
+                }
+                return $return;
+            })
+            ->addColumn('is_done', function ($query) {
+                $return = null;
+                if ($query->is_done == 1) {
+                    $return .= 'Ya';
+                    $return .= '<br/>Selesai pada: ' . $query->done_at;
+                } else {
+                    $return .= 'Belum';
+                }
+                return $return;
+            })
+            ->addColumn('action', function ($query) {
+                $return = null;
+                return $return;
+            })
+            ->rawColumns(['action', 'approval1', 'approval2', 'is_done'])
             ->setRowId('id');
     }
 
@@ -110,7 +142,10 @@ class ReportBookingsDataTable extends DataTable
             Column::make('vehicle')->title('Kendaraan'),
             Column::make('date')->title('Tanggal'),
             Column::make('necessary')->title('Keperluan'),
+            Column::make('approval1')->title('Approval 1'),
+            Column::make('approval2')->title('Approval 2'),
             Column::make('status')->title('Status'),
+            Column::make('is_done')->title('Selesai'),
             // Column::computed('action')
             //     ->title('Opsi')
             //     ->exportable(false)

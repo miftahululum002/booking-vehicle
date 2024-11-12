@@ -39,22 +39,38 @@ class BookingsDataTable extends DataTable
                 return $return;
             })
             ->addColumn('approval1', function ($query) {
-                $approval1 = $query->approval->where('order', 1)->first();
+                $approval = $query->approval->where('order', 1)->first();
                 $return = null;
-                if ($approval1) {
-                    $return = $approval1->user->name . '<br/>Status: <b>';
-                    $return .= $approval1->status == 1 ? 'Disetujui' : 'Belum/Tidak Disetujui';
-                    $return .= '</b>';
+                if ($approval) {
+                    $return = $approval->user->name . '<br/>Status:';
+                    if ($approval->status == 1) {
+                        $return .= '<b>Disetujui</b><br/>Waktu Approve: <b>' . $approval->approve_at . '</b>';
+                    } else {
+                        $return .= '<b>Belum/Tidak Disetujui</b>';
+                    }
                 }
                 return $return;
             })
             ->addColumn('approval2', function ($query) {
-                $approval1 = $query->approval->where('order', 2)->first();
+                $approval = $query->approval->where('order', 2)->first();
                 $return = null;
-                if ($approval1) {
-                    $return = $approval1->user->name . '<br/>Status: <b>';
-                    $return .= $approval1->status == 1 ? 'Disetujui' : 'Belum/Tidak Disetujui';
-                    $return .= '</b>';
+                if ($approval) {
+                    $return = $approval->user->name . '<br/>Status:';
+                    if ($approval->status == 1) {
+                        $return .= '<b>Disetujui</b><br/>Waktu Approve: <b>' . $approval->approve_at . '</b>';
+                    } else {
+                        $return .= '<b>Belum/Tidak Disetujui</b>';
+                    }
+                }
+                return $return;
+            })
+            ->addColumn('is_done', function ($query) {
+                $return = null;
+                if ($query->is_done == 1) {
+                    $return .= 'Ya';
+                    $return .= '<br/>Selesai pada: ' . $query->done_at;
+                } else {
+                    $return .= 'Belum';
                 }
                 return $return;
             })
@@ -68,7 +84,7 @@ class BookingsDataTable extends DataTable
                 }
                 return $return;
             })
-            ->rawColumns(['action', 'approval1', 'approval2'])
+            ->rawColumns(['action', 'approval1', 'approval2', 'is_done'])
             ->setRowId('id');
     }
 
@@ -117,9 +133,10 @@ class BookingsDataTable extends DataTable
             Column::make('vehicle')->title('Kendaraan'),
             Column::make('date')->title('Tanggal'),
             Column::make('necessary')->title('Keperluan'),
-            Column::make('status')->title('Status'),
             Column::make('approval1')->title('Approval 1'),
             Column::make('approval2')->title('Approval 2'),
+            Column::make('status')->title('Status'),
+            Column::make('is_done')->title('Selesai'),
             Column::computed('action')
                 ->title('Opsi')
                 ->exportable(false)
