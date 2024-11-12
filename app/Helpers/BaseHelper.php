@@ -1,6 +1,43 @@
 <?php
 
 use App\Models\ActivityLog;
+use App\Models\Vehicle;
+
+
+function generateCodeVehicle()
+{
+    $prefixs = getPrefixCode();
+    $prefix = $prefixs->vehicle;
+    $akhir = 1;
+    $padLength = $prefixs->pad;
+    $lastEntry = getLastRecordVehicle();
+    if ($lastEntry) {
+        $akhir = intval(str_replace($prefix, '', $lastEntry->code)) + 1;
+    }
+    return $prefix . str_pad($akhir, $padLength, '0', STR_PAD_LEFT);
+}
+
+function getLastRecordVehicle()
+{
+    return getVehicleData(null, true);
+}
+
+function getVehicleData($where = null, $single = true)
+{
+    $model = new Vehicle();
+    $columns = getColumns($model);
+
+    $query = Vehicle::select($columns)->where($where)->orderBy('created_at', 'DESC');
+    if ($single) {
+        return $query->first();
+    }
+    return $query->get();
+}
+
+function getPrefixCode()
+{
+    return (object) config('miftahululum.code');
+}
 
 function getApp()
 {
@@ -59,4 +96,30 @@ function createActivityLog($activity, $data = null, $userId = null)
         $object['data'] = json_encode($data);
     }
     return ActivityLog::create($object);
+}
+
+function getColumns($model)
+{
+    return array_merge($model->getGuarded(), $model->getFillable());
+}
+
+
+function getTableClass()
+{
+    return getTableConfig()->class;
+}
+
+function getTableId()
+{
+    return getTableConfig()->id;
+}
+
+function getTablePageLength()
+{
+    return getTableConfig()->page_length;
+}
+
+function getTableConfig()
+{
+    return (object) config('miftahululum.table');
 }
