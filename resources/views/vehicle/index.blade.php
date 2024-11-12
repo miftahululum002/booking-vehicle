@@ -2,7 +2,6 @@
 @push('styles')
 @endpush
 @section('content')
-<h2>{{$title}}</h2>
 <div class="table-responsive small">
     {{ $dataTable->table() }}
 </div>
