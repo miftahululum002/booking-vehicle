@@ -66,6 +66,7 @@ class BookingController extends Controller
                 ];
                 createBookingApproval($approval);
             }
+            setActivityLog('Create booking', $input);
             return response()->json([
                 'code'      => 200,
                 'message'   => 'Proses berhasil',
