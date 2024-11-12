@@ -54,7 +54,6 @@ class BookingController extends Controller
         $approvals = $input['user_id'];
         unset($booking['user_id']);
         $booking['code'] = generateCodeBooking();
-
         try {
             $store = createBooking($booking);
             $bookingId = $store->id;
@@ -63,6 +62,7 @@ class BookingController extends Controller
                     'booking_id' => $bookingId,
                     'user_id' => $value,
                     'status' => '0',
+                    'order' => ($key + 1)
                 ];
                 createBookingApproval($approval);
             }
