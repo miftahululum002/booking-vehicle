@@ -109,14 +109,14 @@ class ReportBookingsDataTable extends DataTable
             Column::make('code')->title('Kode'),
             Column::make('vehicle')->title('Kendaraan'),
             Column::make('date')->title('Tanggal'),
-            Column::make('necessary')->title('Tujuan'),
+            Column::make('necessary')->title('Keperluan'),
             Column::make('status')->title('Status'),
-            Column::computed('action')
-                ->title('Opsi')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
+            // Column::computed('action')
+            //     ->title('Opsi')
+            //     ->exportable(false)
+            //     ->printable(false)
+            //     ->width(60)
+            //     ->addClass('text-center'),
         ];
     }
 

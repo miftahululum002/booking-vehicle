@@ -38,6 +38,26 @@ class BookingsDataTable extends DataTable
                 }
                 return $return;
             })
+            ->addColumn('approval1', function ($query) {
+                $approval1 = $query->approval->where('order', 1)->first();
+                $return = null;
+                if ($approval1) {
+                    $return = $approval1->user->name . '<br/>Status: <b>';
+                    $return .= $approval1->status == 1 ? 'Disetujui' : 'Belum/Tidak Disetujui';
+                    $return .= '</b>';
+                }
+                return $return;
+            })
+            ->addColumn('approval2', function ($query) {
+                $approval1 = $query->approval->where('order', 2)->first();
+                $return = null;
+                if ($approval1) {
+                    $return = $approval1->user->name . '<br/>Status: <b>';
+                    $return .= $approval1->status == 1 ? 'Disetujui' : 'Belum/Tidak Disetujui';
+                    $return .= '</b>';
+                }
+                return $return;
+            })
             ->addColumn('action', function ($query) {
                 $return = null;
                 $status = $query->status;
@@ -48,7 +68,7 @@ class BookingsDataTable extends DataTable
                 }
                 return $return;
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'approval1', 'approval2'])
             ->setRowId('id');
     }
 
@@ -96,8 +116,10 @@ class BookingsDataTable extends DataTable
             Column::make('code')->title('Kode'),
             Column::make('vehicle')->title('Kendaraan'),
             Column::make('date')->title('Tanggal'),
-            Column::make('necessary')->title('Tujuan'),
+            Column::make('necessary')->title('Keperluan'),
             Column::make('status')->title('Status'),
+            Column::make('approval1')->title('Approval 1'),
+            Column::make('approval2')->title('Approval 2'),
             Column::computed('action')
                 ->title('Opsi')
                 ->exportable(false)

@@ -40,7 +40,7 @@ class ApprovalBookingsDataTable extends DataTable
                     $return .= 'Pegawai: ' . $employee->name;
                 }
                 if ($booking) {
-                    $return .= '<br/>Tanggal: ' . $booking->date . '<br/>Tujuan: ' . $booking->necessary .
+                    $return .= '<br/>Tanggal: ' . $booking->date . '<br/>Keperluan: ' . $booking->necessary .
                         '<br/>Status: ' . $booking->status;
                 }
                 if ($vehicle) {
@@ -56,9 +56,6 @@ class ApprovalBookingsDataTable extends DataTable
             })
             ->addColumn('date', function ($query) {
                 return $query->booking->date;
-            })
-            ->addColumn('necessary', function ($query) {
-                return $query->booking->necessary;
             })
             ->addColumn('status', function ($query) {
                 return $query->status == '0' ? 'Belum/Tidak disetujui' : 'Setuju';
