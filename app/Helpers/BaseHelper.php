@@ -116,6 +116,11 @@ function getVehicleData($where = null, $single = true)
     return $query->get();
 }
 
+function getEmployeeById($id)
+{
+    return getEmployeeData(['id' => $id], true);
+}
+
 function getEmployeeData($where = null, $single = true)
 {
     $model = new Employee();
@@ -272,4 +277,9 @@ function createBookingApproval($data)
 function insertBookingApproval($data)
 {
     return BookingApproval::insert($data);
+}
+
+function getListBookingByApprovalUserId($userId)
+{
+    return BookingApproval::where('user_id', $userId)->get();
 }
