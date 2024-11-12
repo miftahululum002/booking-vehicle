@@ -14,7 +14,8 @@ class BookingApprovalController extends Controller
     public function index()
     {
         $userId = getUserLoginId();
-        $datatable = new ApprovalBookingsDataTable($userId);
+        $myApprovalBooking = getBookingIdByApprovalUserId($userId);
+        $datatable = new ApprovalBookingsDataTable($userId, $myApprovalBooking);
         $this->data['title'] = 'Persetujuan Booking';
         return $this->renderDatatable('index', $datatable);
     }
@@ -53,7 +54,7 @@ class BookingApprovalController extends Controller
         }
         $jumlahApproval = getCountAllApprovalBooking($bookingId);
         try {
-            updateBookingApproval($approveId, ['status' => '1', 'updated_by' => $userId]);
+            updateBookingApproval($approveId, ['status' => '1', 'updated_by' => $userId, 'approve_at' => date('Y-m-d H:i:s')]);
             $cek = getCountBookingApprovalApprove($bookingId);
             if ($cek == $jumlahApproval) {
                 updateBooking($bookingId, ['status' => 'APPROVED', 'updated_by' => $userId]);
