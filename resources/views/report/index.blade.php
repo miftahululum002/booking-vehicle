@@ -2,7 +2,18 @@
 @push('styles')
 @endpush
 @section('content')
-<h3>Pemesanan Kendaraan</h3>
+<div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group me-2">
+        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+    </div>
+    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center gap-1">
+        <svg class="bi">
+            <use xlink:href="#calendar3" />
+        </svg>
+        This week
+    </button>
+</div>
 <div class="mb-3">
     <div class="input-group rounded-0">
         <input type="date" id="start_date" name="start_date" value="{{date('Y-m-d')}}" class="form-control rounded-0" placeholder="Tanggal awal" required>

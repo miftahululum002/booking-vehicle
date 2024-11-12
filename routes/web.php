@@ -24,6 +24,7 @@ Route::middleware(['auth'])->group(function () {
             Route::prefix('dashboard')->group(function () {
                 Route::controller(DashboardController::class)->group(function () {
                     Route::get('/', 'index')->name('index');
+                    Route::get('/get-chart', 'getChart')->name('get-chart');
                 });
                 Route::middleware(['role:1'])->group(function () {
                     Route::name('bookings.')->group(function () {
@@ -56,6 +57,13 @@ Route::middleware(['auth'])->group(function () {
 
                     Route::name('drivers.')->group(function () {
                         Route::prefix('drivers')->group(function () {
+                            Route::controller(DriverController::class)->group(function () {
+                                Route::get('/', 'index')->name('index');
+                            });
+                        });
+                    });
+                    Route::name('reports.')->group(function () {
+                        Route::prefix('reports')->group(function () {
                             Route::controller(DriverController::class)->group(function () {
                                 Route::get('/', 'index')->name('index');
                             });
