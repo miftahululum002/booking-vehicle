@@ -60,6 +60,7 @@ class BookingApprovalController extends Controller
             } else {
                 updateBooking($bookingId, ['status' => 'APPROVAL', 'updated_by' => $userId]);
             }
+            setActivityLog('Approve booking:' . $bookingId, ['booking_id' => $bookingId, 'approval_id' => $approveId, 'status' => '1']);
             return response()->json([
                 'code'      => 200,
                 'message'   => 'Proses berhasil',
