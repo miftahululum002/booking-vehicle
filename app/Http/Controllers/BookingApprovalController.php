@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\ApprovalBookingsDataTable;
 use App\DataTables\BookingsDataTable;
 use Exception;
 use Illuminate\Http\Request;
@@ -12,8 +13,9 @@ class BookingApprovalController extends Controller
 
     public function index()
     {
-        $datatable = new BookingsDataTable();
-        $this->data['title'] = 'Booking';
+        $userId = getUserLoginId();
+        $datatable = new ApprovalBookingsDataTable($userId);
+        $this->data['title'] = 'Persetujuan Booking';
         return $this->renderDatatable('index', $datatable);
     }
 
