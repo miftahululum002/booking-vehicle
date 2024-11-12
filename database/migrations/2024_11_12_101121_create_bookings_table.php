@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('code', 20)->unique();
             $table->foreignId('vehicle_id')->constrained('vehicles')->restrictOnDelete()->cascadeOnUpdate();
             $table->foreignId('employee_id')->constrained('employees')->restrictOnDelete()->cascadeOnUpdate();
+            $table->foreignId('driver_id')->constrained('drivers')->restrictOnDelete()->cascadeOnUpdate();
             $table->date('date');
             $table->text('necessary');
             $table->enum('status', ['SUBMITTED', 'APPROVAL', 'APPROVED', 'REJECTED'])->default('SUBMITTED');

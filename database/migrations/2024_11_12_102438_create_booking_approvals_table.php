@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('booking_id')->constrained('bookings')->restrictOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->constrained('users')->restrictOnDelete()->cascadeOnUpdate();
             $table->enum('status', ['1', '0'])->default('0');
+            $table->smallInteger('order')->default(1);
             $table->text('description')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->integer('created_by')->nullable();
