@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('status', ['1', '0'])->default('0');
             $table->smallInteger('order')->default(1);
             $table->text('description')->nullable();
+            $table->timestamp('approve_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->integer('created_by')->nullable();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
