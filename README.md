@@ -82,6 +82,38 @@ pass: password<br/>
 
 Host: http://127.0.0.1:8000
 
-## Dokumentasi Api
+## Data Model
 
-http://localhost:8000/docs/api
+<img src="documents/data-model.jpg" width="800"/>
+
+## Cara Penggunaan Aplikasi
+
+<ul>
+<li>
+Admin login<br/>
+<img src="documents/login.jpg" width="600"/><br/><br/>
+</li>
+
+<li>
+Admin input booking (pemesanan) mengisi form yang tersedia
+<br/>
+<img src="documents/input-booking.jpg" width="600"/><br/><br/>
+</li>
+<li>Pihak yang menyetujui login</li>
+<li>
+Approver menyetujui booking (pemesanan) yang ada dilakukan dengan berjenjang
+<br/>
+<img src="documents/approval.jpg" width="600"/><br/><br/>
+</li>
+<li>Admin dapat melakukan penyelesaian booking apabila sudah selesai</li>
+<li>
+Admin dapat melihat grafik penggunaan kendaraan
+<br/>
+<img src="documents/grafik.jpg" width="600"/><br/><br/>
+</li>
+<li>
+Admin dapat melihat laporan dan mengekspor data dalam bentuk excel
+<br/>
+<img src="documents/export.jpg" width="600"/><br/><br/>
+</li>
+</ul>
